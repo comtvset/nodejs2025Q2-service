@@ -17,6 +17,11 @@ git clone https://github.com/comtvset/nodejs2025Q2-service.git
 npm install
 ```
 
+## Create .env file
+```
+cp .env.example .env
+```
+
 ## Running application
 
 ```
