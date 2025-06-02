@@ -13,6 +13,18 @@ export const greetings = {
         'DELETE /user/:id — delete user',
       ],
     },
+    artists: { basePath: '/artist', routes: ['GET', 'POST', 'PUT', 'DELETE'] },
+    albums: { basePath: '/album', routes: ['GET', 'POST', 'PUT', 'DELETE'] },
+    tracks: { basePath: '/track', routes: ['GET', 'POST', 'PUT', 'DELETE'] },
+    favorites: {
+      basePath: '/favs',
+      routes: [
+        'GET /favs — get all favorite entities',
+        'POST /favs/track/:id — add track to favorites',
+        'DELETE /favs/track/:id — remove track from favorites',
+        'and similarly for artist and album',
+      ],
+    },
   },
   notes: [
     '👤 Login must be at least 2 characters',

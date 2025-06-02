@@ -14,34 +14,27 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-// !!! controller - обрабатывает http запросы и возвращают ответ,
-// endpoint "/user"...
-// контроллер нужен для того чтоб обрабатывать входящие и исходящие запросы
-// может принять 📥 данные, body, query params
-// может отдать 📤 готовые данные, ошибку
-// плохая практика ❌ делать запросы в базы данные!!!
-
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto): User {
+  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.userService.create(createUserDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.userService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string): User {
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
     return this.userService.findOne(id);
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
@@ -50,7 +43,7 @@ export class UserController {
 
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id', ParseUUIDPipe) id: string) {
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.userService.remove(id);
   }
 }

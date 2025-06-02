@@ -8,7 +8,7 @@ import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class ArtistService {
-  create(createArtistDto: CreateArtistDto): Artist {
+  async create(createArtistDto: CreateArtistDto): Promise<Artist> {
     const newArtist: Artist = {
       id: randomUUID(),
       name: createArtistDto.name,
@@ -18,20 +18,20 @@ export class ArtistService {
     return plainToInstance(Artist, newArtist);
   }
 
-  findAll(): Artist[] {
+  async findAll(): Promise<Artist[]> {
     return db.artists;
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     const artist = db.artists.find((a) => a.id === id);
     if (!artist) throw new NotFoundException('>>> Artist not found');
     return artist;
   }
 
-  update(id: string, updateArtistDto: UpdateArtistDto): Artist {
+  async update(id: string, updateArtistDto: UpdateArtistDto): Promise<Artist> {
     const artistIndex = db.artists.findIndex((a) => a.id === id);
     if (artistIndex === -1) {
-      throw new NotFoundException(`Artist with id ${id} not found`);
+      throw new NotFoundException(`>>> Artist with id ${id} not found`);
     }
 
     const updatedArtistData = {
@@ -46,7 +46,7 @@ export class ArtistService {
     return plainToInstance(Artist, db.artists[artistIndex]);
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     const artist = db.artists.findIndex((a) => a.id === id);
     if (artist === -1) throw new NotFoundException('>>> Artist not found');
 

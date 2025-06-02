@@ -10,10 +10,9 @@ import { randomUUID } from 'crypto';
 import { plainToInstance } from 'class-transformer';
 import { db } from 'src/db/dataBase';
 
-// !!!Service выполнят бизнес-логику и взаимодействуют с базами данных!!!
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto): User {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const timestamp = Date.now();
     const newUser: User = {
       id: randomUUID(),
@@ -27,20 +26,20 @@ export class UserService {
     return plainToInstance(User, newUser);
   }
 
-  findAll(): User[] {
+  async findAll(): Promise<User[]> {
     return db.users;
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     const user = db.users.find((u) => u.id === id);
     if (!user) throw new NotFoundException('>>> User not found');
     return user;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     const user = this.findOne(id);
 
-    if (user.password !== updateUserDto.oldPassword) {
+    if ((await user).password !== updateUserDto.oldPassword) {
       throw new ForbiddenException('>>> Old password does not match');
     }
 
@@ -50,13 +49,13 @@ export class UserService {
       );
     }
 
-    user.password = updateUserDto.newPassword;
-    user.version += 1;
-    user.updatedAt = Date.now();
+    (await user).password = updateUserDto.newPassword;
+    (await user).version += 1;
+    (await user).updatedAt = Date.now();
     return plainToInstance(User, user);
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     const user = db.users.findIndex((u) => u.id === id);
     if (user === -1) throw new NotFoundException('>>> User not found');
     db.users.splice(user, 1);
