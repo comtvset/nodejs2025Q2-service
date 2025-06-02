@@ -50,6 +50,13 @@ export class AlbumService {
   remove(id: string) {
     const album = db.albums.findIndex((a) => a.id === id);
     if (album === -1) throw new NotFoundException('>>> Album not found');
+
+    db.tracks.forEach((track) => {
+      if (track.albumId === id) {
+        track.albumId = null;
+      }
+    });
+
     db.albums.splice(album, 1);
   }
 }
