@@ -8,7 +8,7 @@ import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class TrackService {
-  create(createTrackDto: CreateTrackDto) {
+  async create(createTrackDto: CreateTrackDto): Promise<Track> {
     const newTrack: Track = {
       id: randomUUID(),
       name: createTrackDto.name,
@@ -20,20 +20,20 @@ export class TrackService {
     return plainToInstance(Track, newTrack);
   }
 
-  findAll(): Track[] {
+  async findAll(): Promise<Track[]> {
     return db.tracks;
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     const track = db.tracks.find((t) => t.id === id);
     if (!track) throw new NotFoundException('>>> Track not found');
     return track;
   }
 
-  update(id: string, updateTrackDto: UpdateTrackDto) {
+  async update(id: string, updateTrackDto: UpdateTrackDto): Promise<Track> {
     const trackIndex = db.tracks.findIndex((t) => t.id === id);
     if (trackIndex === -1) {
-      throw new NotFoundException(`Track with id ${id} not found`);
+      throw new NotFoundException(`>>> Track with id ${id} not found`);
     }
 
     const updatedTrackData = {
@@ -48,7 +48,7 @@ export class TrackService {
     return plainToInstance(Track, db.tracks[trackIndex]);
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     const track = db.tracks.findIndex((t) => t.id === id);
     if (track === -1) throw new NotFoundException('>>> Track not found');
     db.tracks.splice(track, 1);

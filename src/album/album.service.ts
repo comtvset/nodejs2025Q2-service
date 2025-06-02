@@ -8,7 +8,7 @@ import { randomUUID } from 'crypto';
 
 @Injectable()
 export class AlbumService {
-  create(createAlbumDto: CreateAlbumDto): Album {
+  async create(createAlbumDto: CreateAlbumDto): Promise<Album> {
     const newAlbum: Album = {
       id: randomUUID(),
       name: createAlbumDto.name,
@@ -19,20 +19,20 @@ export class AlbumService {
     return plainToInstance(Album, newAlbum);
   }
 
-  findAll(): Album[] {
+  async findAll(): Promise<Album[]> {
     return db.albums;
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     const album = db.albums.find((a) => a.id === id);
     if (!album) throw new NotFoundException('>>> Album not found');
     return album;
   }
 
-  update(id: string, updateAlbumDto: UpdateAlbumDto): Album {
+  async update(id: string, updateAlbumDto: UpdateAlbumDto): Promise<Album> {
     const albumIndex = db.albums.findIndex((a) => a.id === id);
     if (albumIndex === -1) {
-      throw new NotFoundException(`Album with id ${id} not found`);
+      throw new NotFoundException(`>>> Album with id ${id} not found`);
     }
 
     const updatedAlbumData = {
@@ -47,7 +47,7 @@ export class AlbumService {
     return plainToInstance(Album, db.albums[albumIndex]);
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     const album = db.albums.findIndex((a) => a.id === id);
     if (album === -1) throw new NotFoundException('>>> Album not found');
 
