@@ -8,11 +8,11 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { randomUUID } from 'crypto';
 import { plainToInstance } from 'class-transformer';
+import { db } from 'src/db/dataBase';
 
 // !!!Service выполнят бизнес-логику и взаимодействуют с базами данных!!!
 @Injectable()
 export class UserService {
-  private users: User[] = [];
   create(createUserDto: CreateUserDto): User {
     const timestamp = Date.now();
     const newUser: User = {
@@ -23,17 +23,16 @@ export class UserService {
       createdAt: timestamp,
       updatedAt: timestamp,
     };
-    this.users.push(newUser);
-    // return newUser;
+    db.users.push(newUser);
     return plainToInstance(User, newUser);
   }
 
   findAll(): User[] {
-    return this.users;
+    return db.users;
   }
 
   findOne(id: string) {
-    const user = this.users.find((u) => u.id === id);
+    const user = db.users.find((u) => u.id === id);
     if (!user) throw new NotFoundException('>>> User not found');
     return user;
   }
@@ -58,8 +57,8 @@ export class UserService {
   }
 
   remove(id: string) {
-    const user = this.users.findIndex((u) => u.id === id);
+    const user = db.users.findIndex((u) => u.id === id);
     if (user === -1) throw new NotFoundException('>>> User not found');
-    this.users.splice(user, 1);
+    db.users.splice(user, 1);
   }
 }
