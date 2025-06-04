@@ -27,13 +27,13 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    return db.users;
+    return plainToInstance(User, db.users);
   }
 
   async findOne(id: string) {
     const user = db.users.find((u) => u.id === id);
     if (!user) throw new NotFoundException('>>> User not found');
-    return user;
+    return plainToInstance(User, user);
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
