@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  app:
+    image: comtvset/nodejs2025q2-service-app:latest
+    container_name: nest-app
+    build: .
+    ports:
+      - '4000:4000'
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /app/node_modules
+    restart: unless-stopped
+    networks:
+      - home-library-net
+
+networks:
+  home-library-net:
+    driver: bridge
