@@ -26,9 +26,9 @@ cp .env.example .env
 
 ## Docker Installation
 
-Go to [Docker Desktop](https://www.docker.com/products/docker-desktop/) and download application
-Install the application
-Verify installation in terminal:
+- Go to [Docker Desktop](https://www.docker.com/products/docker-desktop/) and download application
+- Install the application
+- Verify installation in terminal:
 
 ```
 docker --version
@@ -38,16 +38,16 @@ docker --version
 docker compose version
 ```
 
-#### ⚠️⚠️⚠️ Note: If you're running PostgreSQL locally, you must stop the local PostgreSQL service before using Docker.
+#### ⚠️⚠️⚠️ Note: If you're running PostgreSQL locally, you must stop the local PostgreSQL service.
 #### To do this:
 
-Press <kbd>Win</kbd> + <kbd>R</kbd>
+1. Press <kbd>Win</kbd> + <kbd>R</kbd>
 
-Type services.msc and press <kbd>Enter</kbd>
+2. Type services.msc and press <kbd>Enter</kbd>
 
-Find PostgreSQL in the list
+3. Find PostgreSQL in the list
 
-Right-click it and select Stop
+4. Right-click it and select Stop
 
 ## Running application
 
