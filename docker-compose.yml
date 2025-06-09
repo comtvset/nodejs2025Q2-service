@@ -16,7 +16,7 @@ services:
       -c logging_collector=on
       -c log_directory=/var/lib/postgresql/logs
       -c log_statement=all
-    restart: on-failure
+    restart: always
     networks:
       - home-library-net
     healthcheck:
@@ -36,7 +36,7 @@ services:
       - ${PORT}:${PORT}
     env_file:
       - .env
-    restart: on-failure
+    restart: always
     depends_on:
       db:
         condition: service_healthy
