@@ -1,11 +1,18 @@
-FROM node:20-alpine AS base
+FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 COPY . .
-RUN npx prisma generate
-FROM base AS development
-CMD ["npm", "run", "start:dev"]
-FROM base AS production
-RUN npm run build
+RUN npm run build && npx prisma generate
+
+FROM node:20-alpine AS production
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/prisma ./prisma
+COPY doc ./doc
 CMD ["npm", "run", "start:prod"]
+
+FROM builder AS development
+CMD ["npm", "run", "start:dev"]

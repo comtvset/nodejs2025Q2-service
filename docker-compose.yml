@@ -42,7 +42,7 @@ services:
         condition: service_healthy
     networks:
       - home-library-net
-    command: sh -c "npx prisma migrate deploy && npm run start:nest"
+    command: sh -c "npx prisma generate && npx prisma migrate deploy && npm run start:node"
     working_dir: /app
 
 networks:
