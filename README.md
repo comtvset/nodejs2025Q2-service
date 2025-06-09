@@ -4,6 +4,7 @@
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Docker – [Download & Install Docker Desktop](https://www.docker.com/products/docker-desktop)
 
 ## Downloading
 
@@ -22,7 +23,29 @@ npm install
 cp .env.example .env
 ```
 
+## Docker Installation
+Go to [Docker Desktop](https://www.docker.com/products/docker-desktop/) and download application
+Install the application
+Verify installation in terminal:
+```
+docker --version
+```
+```
+docker compose version
+```
+
 ## Running application
+
+```
+npm run start:prod
+```
+or
+
+```
+npm run start:dev
+```
+
+or
 
 ```
 npm start
