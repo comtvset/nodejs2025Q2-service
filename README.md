@@ -19,26 +19,42 @@ npm install
 ```
 
 ## Create .env file
+
 ```
 cp .env.example .env
 ```
 
 ## Docker Installation
+
 Go to [Docker Desktop](https://www.docker.com/products/docker-desktop/) and download application
 Install the application
 Verify installation in terminal:
+
 ```
 docker --version
 ```
+
 ```
 docker compose version
 ```
+
+#### ⚠️⚠️⚠️ Note: If you're running PostgreSQL locally, you must stop the local PostgreSQL service before using Docker.
+#### To do this:
+
+Press <kbd>Win</kbd> + <kbd>R</kbd>
+
+Type services.msc and press <kbd>Enter</kbd>
+
+Find PostgreSQL in the list
+
+Right-click it and select Stop
 
 ## Running application
 
 ```
 npm run start:prod
 ```
+
 or
 
 ```
