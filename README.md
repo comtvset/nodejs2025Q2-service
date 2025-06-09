@@ -4,11 +4,12 @@
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Docker – [Download & Install Docker Desktop](https://www.docker.com/products/docker-desktop)
 
 ## Downloading
 
 ```
-git clone {repository URL}
+git clone https://github.com/comtvset/nodejs2025Q2-service.git
 ```
 
 ## Installing NPM modules
@@ -17,7 +18,50 @@ git clone {repository URL}
 npm install
 ```
 
+## Create .env file
+
+```
+cp .env.example .env
+```
+
+## Docker Installation
+
+- Go to [Docker Desktop](https://www.docker.com/products/docker-desktop/) and download application
+- Install the application
+- Verify installation in terminal:
+
+```
+docker --version
+```
+
+```
+docker compose version
+```
+
+#### ⚠️⚠️⚠️ Note: If you're running PostgreSQL locally, you must stop the local PostgreSQL service.
+#### To do this:
+
+1. Press <kbd>Win</kbd> + <kbd>R</kbd>
+
+2. Type services.msc and press <kbd>Enter</kbd>
+
+3. Find PostgreSQL in the list
+
+4. Right-click it and select Stop
+
 ## Running application
+
+```
+npm run start:prod
+```
+
+or
+
+```
+npm run start:dev
+```
+
+or
 
 ```
 npm start
