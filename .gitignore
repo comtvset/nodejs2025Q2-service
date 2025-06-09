@@ -37,3 +37,10 @@ lerna-debug.log*
 # local env files
 .env*.local
 .env
+
+# Docker volumes: PostgreSQL database files and logs
+volumes/
+
+# PostgreSQL: temporary process ID files and Unix domain sockets
+*.pid
+*.s.PGSQL.*

@@ -27,11 +27,11 @@ services:
 
   app:
     image: comtvset/app:v.1
-    container_name: nest-app
+    container_name: nest-app_dev
     build:
       context: .
       dockerfile: Dockerfile
-      target: production
+      target: development
     ports:
       - ${PORT}:${PORT}
     env_file:
@@ -44,6 +44,11 @@ services:
       - home-library-net
     command: sh -c "npx prisma migrate deploy && npm run start:nest"
     working_dir: /app
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
 
 networks:
   home-library-net:
