@@ -53,25 +53,43 @@ export class LoggingService {
     }
   }
 
+  private writeToConsole(level: string, message: string) {
+    const time = new Date().toISOString();
+    process.stdout.write(`[${time}] [${level}] ${message}\n`);
+  }
+
   log(msg: string) {
-    if (this.logLevel >= LogLevel.LOG) this.writeToFile('LOG', msg);
+    if (this.logLevel >= LogLevel.LOG) {
+      this.writeToFile('LOG', msg);
+      this.writeToConsole('LOG', msg);
+    }
   }
 
   error(msg: string, trace?: string) {
     if (this.logLevel >= LogLevel.ERROR) {
       this.writeToFile('ERROR', `${msg}\n${trace || ''}`, true);
+      this.writeToConsole('ERROR', `${msg}\n${trace || ''}`);
     }
   }
 
   warn(msg: string) {
-    if (this.logLevel >= LogLevel.WARN) this.writeToFile('WARN', msg);
+    if (this.logLevel >= LogLevel.WARN) {
+      this.writeToFile('WARN', msg);
+      this.writeToConsole('WARN', msg);
+    }
   }
 
   debug(msg: string) {
-    if (this.logLevel >= LogLevel.DEBUG) this.writeToFile('DEBUG', msg);
+    if (this.logLevel >= LogLevel.DEBUG) {
+      this.writeToFile('DEBUG', msg);
+      this.writeToConsole('DEBUG', msg);
+    }
   }
 
   verbose(msg: string) {
-    if (this.logLevel >= LogLevel.VERBOSE) this.writeToFile('VERBOSE', msg);
+    if (this.logLevel >= LogLevel.VERBOSE) {
+      this.writeToFile('VERBOSE', msg);
+      this.writeToConsole('VERBOSE', msg);
+    }
   }
 }

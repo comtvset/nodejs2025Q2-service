@@ -15,6 +15,20 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalFilters(new AllExceptionsFilter(app.get(LoggingService)));
 
+  const logger = app.get(LoggingService);
+
+  process.on('uncaughtException', (err) => {
+    logger.error(`Uncaught Exception: ${err.message}`, err.stack);
+    process.exit(1);
+  });
+
+  process.on('unhandledRejection', (reason: any) => {
+    const message =
+      reason instanceof Error ? reason.message : JSON.stringify(reason);
+    const stack = reason instanceof Error ? reason.stack : '';
+    logger.error(`Unhandled Rejection: ${message}`, stack);
+  });
+
   const config = new DocumentBuilder()
     .setTitle('REST Service')
     .setDescription('Home Library Service')

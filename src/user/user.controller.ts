@@ -24,19 +24,16 @@ export class UserController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    this.logger.log('POST /user called');
     return this.userService.create(createUserDto);
   }
 
   @Get()
   async findAll() {
-    this.logger.log('GET /user called');
     return this.userService.findAll();
   }
 
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
-    this.logger.log(`GET /user/${id} called`);
     return this.userService.findOne(id);
   }
 
@@ -45,14 +42,12 @@ export class UserController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    this.logger.log(`PUT /user/${id} called`);
     return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   @HttpCode(204)
   async remove(@Param('id', ParseUUIDPipe) id: string) {
-    this.logger.log(`DELETE /user/${id} called`);
     return this.userService.remove(id);
   }
 }
