@@ -17,10 +17,17 @@ export class LoggingService {
   private readonly errorFile = path.join(this.logDir, 'error.log');
   private readonly maxFileSize =
     parseInt(process.env.LOG_FILE_SIZE_KB || '100') * 1024;
+
   private readonly logLevel = parseInt(process.env.LOG_LEVEL || '2', 10);
 
   constructor() {
     this.ensureLogDirectoryExists();
+    if (!process.env.LOG_LEVEL) {
+      this.warn('LOG_LEVEL is not set, using default level 2');
+    }
+    if (!process.env.LOG_FILE_SIZE_KB) {
+      this.warn('LOG_FILE_SIZE_KB is not set, using default level 100KB');
+    }
   }
 
   private ensureLogDirectoryExists() {
