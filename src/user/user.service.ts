@@ -68,4 +68,10 @@ export class UserService {
     await this.findOne(id);
     await this.prisma.user.delete({ where: { id } });
   }
+
+  async findByLogin(login: string) {
+    const user = await this.prisma.user.findUnique({ where: { login } });
+    if (!user) throw new NotFoundException('>>> User not found');
+    return plainToInstance(User, user);
+  }
 }

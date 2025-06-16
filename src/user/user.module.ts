@@ -7,5 +7,6 @@ import { LoggerModule } from 'src/logger/logger.module';
   controllers: [UserController],
   providers: [UserService],
   imports: [LoggerModule],
+  exports: [UserService],
 })
 export class UserModule {}
