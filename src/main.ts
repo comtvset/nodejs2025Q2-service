@@ -6,11 +6,14 @@ import { CYAN, GRAY, RESET_COLOR, YELLOW } from './constants/constants';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as fs from 'fs';
 import * as yaml from 'js-yaml';
+import { AllExceptionsFilter } from './logger/all-exceptions.filter';
+import { LoggingService } from './logger/logger.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  app.useGlobalFilters(new AllExceptionsFilter(app.get(LoggingService)));
 
   const config = new DocumentBuilder()
     .setTitle('REST Service')
