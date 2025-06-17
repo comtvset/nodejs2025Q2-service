@@ -1,0 +1,68 @@
+services:
+  db:
+    image: postgres:16
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_LOG_STATEMENT: all
+      POSTGRES_LOG_DESTINATION: stderr
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+      - postgres-db_logs:/var/log/postgresql
+    command: >
+      postgres
+      -c logging_collector=on
+      -c log_directory='/var/log/postgresql'
+      -c log_filename='postgresql.log'
+      -c log_statement=all
+    restart: always
+    networks:
+      - home-library-net
+    healthcheck:
+      test: pg_isready -U admin -d mydb
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  app:
+    image: comtvset/app:v.1
+    container_name: nest-app_dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - ${PORT}:${PORT}
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - home-library-net
+    command: sh -c "npx prisma migrate deploy && npm run start:nest"
+    working_dir: /app
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+
+networks:
+  home-library-net:
+    driver: bridge
+
+volumes:
+  postgres-db:
+    driver: local
+  postgres-db_logs:
+    driver: local
